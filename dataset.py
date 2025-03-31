@@ -1,0 +1,65 @@
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+import re
+import os
+
+### 文件路径配置
+input_directory = './dataset/Original_dataset'  # 输入文件夹路径
+output_directory = './dataset/dataset'  # 输出文件夹路径
+print("开始读取文件")
+### 批量读取Excel文件
+excel_files = [
+    os.path.join(input_directory, filename)
+    for filename in os.listdir(input_directory)
+    if filename.endswith(('.xlsx', '.xls'))  # 支持多种格式[[10]]
+]
+print("开始处理文件")
+
+# 合并所有Excel文件
+dataframes = []
+for file_path in excel_files:
+    df = pd.read_excel(file_path, engine='openpyxl')  # 显式指定引擎[[10]]
+    dataframes.append(df)
+merged_data = pd.concat(dataframes, ignore_index=True)
+
+### 数据预处理
+# 选取前两列数据
+selected_columns = merged_data.iloc[:, :2]
+
+# 交换列顺序（第一列和第二列互换）
+original_columns = selected_columns.columns.tolist()
+swapped_columns = [original_columns[1], original_columns[0]] + original_columns[2:]
+reordered_data = selected_columns[swapped_columns]
+
+# 添加分类标签
+labeled_data = reordered_data.copy()
+labeled_data['分类标签'] = (
+    labeled_data['审核结果']
+    .map({'非垃圾短信类': 0, '垃圾短信类': 1})
+    .fillna(-1)
+).astype(int)  # 明确类型转换[[3]]
+processed_data = labeled_data.drop(columns=['审核结果'])
+
+# 文本清洗函数
+def normalize_text(text):
+    """去除特殊字符和表情符号"""
+    return re.sub(r'[^\w\s]', '', text)
+
+processed_data['短信内容'] = processed_data['短信内容'].apply(normalize_text)
+
+### 数据集划分（6:2:2）
+# 划分测试集（20%）
+train_val_data, test_set = train_test_split(processed_data, test_size=0.2, random_state=42)
+
+# 划分训练集和验证集（各占剩余80%的50%）
+training_set, validation_set = train_test_split(train_val_data, test_size=0.25, random_state=42)
+
+### 保存数据集
+os.makedirs(output_directory, exist_ok=True)  # 创建输出目录
+print("文件处理结束")
+# 分别保存三个数据集
+training_set.to_excel(os.path.join(output_directory, 'train_dataset.xlsx'), index=False)
+validation_set.to_excel(os.path.join(output_directory, 'dev_data.xlsx'), index=False)
+test_set.to_excel(os.path.join(output_directory, 'test_data.xlsx'), index=False)  
+print("文件已经保存到/dataset/dataset里边")
