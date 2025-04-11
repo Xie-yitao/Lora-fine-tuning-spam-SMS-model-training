@@ -19,8 +19,7 @@ dataset
   |-test_data.xlsx
   |-train_dataset.xlsx
 |-Original_dataset
-  |-dataset_2024.xlsx
-  |-dataset_20250211.xlsx
+  |-垃圾短信分类数据.xlsx（可以替换为你的数据，可以多个表格文件）
 img
 |-bert
 |-qwen
@@ -103,5 +102,5 @@ dataset
   |-dev_data.xlsx
   |-test_data.xlsx
   |-train_data.xlsx
-  
+
 ### 2、可以直接参考qwen_lora.ipynb
