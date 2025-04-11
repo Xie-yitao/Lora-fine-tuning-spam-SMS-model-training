@@ -3,7 +3,7 @@
 # 模型和数据的路径
 model_name_tokenizer_path = "./bert-base-chinese"  # 预训练模型和分词器的路径
 model_path_lora = "./lora_weights/bert"  # LoRA 权重保存路径
-train_data_path = "./dataset/dataset/train_dataset.xlsx"  # 训练数据路径
+train_data_path = "./dataset/dataset/train_data.xlsx"  # 训练数据路径
 dev_data_path = "./dataset/dataset/dev_data.xlsx"  # 验证数据路径
 test_data_path = "./dataset/dataset/test_data.xlsx"  # 测试数据路径
 output_dir="./lora_results/bert"
