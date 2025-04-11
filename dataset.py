@@ -34,7 +34,7 @@ training_set, validation_set = train_test_split(train_val_data, test_size=0.25, 
 os.makedirs(output_directory, exist_ok=True)  # 创建输出目录
 print("文件处理结束")
 # 分别保存三个数据集
-training_set.to_excel(os.path.join(output_directory, 'train_dataset.xlsx'), index=False)
+training_set.to_excel(os.path.join(output_directory, 'train_data.xlsx'), index=False)
 validation_set.to_excel(os.path.join(output_directory, 'dev_data.xlsx'), index=False)
 test_set.to_excel(os.path.join(output_directory, 'test_data.xlsx'), index=False)  
 print("文件已经保存到/dataset/dataset里边")
