@@ -37,7 +37,7 @@ model_config_qwen.py
 predict.py
 lora_train_qwen.py
 lora_test_qwen.py
-requirements.yml
+requirements.txt
 readme.md
 ```
 ### 核心代码(以微调bert为例)：
